@@ -305,7 +305,7 @@
                     {
                         name: "ฟอพัส (Forpus)",
                         desc: "นกแก้วจิ๋วขนาดเล็กที่สุด มีสีสันสดใส นิสัยร่าเริง ฉลาด แสนรู้ สามารถฝึกให้เชื่อง บินอิสระ และเลียนเสียงสั้นๆ ได้อย่างน่ารัก",
-                        imageUrl: "https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?auto=format&fit=crop&q=80&w=400" 
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9imDwWate3eLIk0vTZuxVPZwCtyiFk4qjJPtFPsIwgQ&s=1.0"
                     },
                     {
                         name: "ค็อกคาเทล (Cockatiel)",
@@ -320,12 +320,12 @@
                     {
                         name: "เบียร์ดดราก้อน / มังกรเครา (Bearded Dragon)",
                         desc: "กิ้งก่าทะเลทรายหน้าตาดุดันแต่ใจดี ไม่มีพิษภัย นิสัยเชื่อง นิ่ง และชอบนอนตากแดด เป็นหนึ่งในสัตว์เลื้อยคลานที่เลี้ยงง่ายที่สุด",
-                        imageUrl: "https://images.unsplash.com/photo-1629812224734-d02bc33d2856?auto=format&fit=crop&q=80&w=400" 
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnAIRK56h4hcJsrnrel5_MenNPWDPbOPfiDlJO6CTv9g&s=10" 
                     },
                     {
                         name: "ชูการ์ไกลเดอร์ / กระรอกบิน (Sugar Glider)",
                         desc: "สัตว์เลี้ยงมีกระเป๋าหน้าท้อง สามารถกางพังผืดข้างลำตัวเพื่อร่อนจากที่สูงได้ นิสัยขี้อ้อน ติดเจ้าของ และชอบซุกนอนในกระเป๋าเสื้อ",
-                        imageUrl: "https://images.unsplash.com/photo-1601058268499-e52614855204?auto=format&fit=crop&q=80&w=400" 
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-K9eDxNJgLyOdnwTjsdyAO_ei0AbAFz7HG-dur4kjgg&s=10" 
                     }
                 ]
             }
