@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Amazing Thailand - แผนที่ท่องเที่ยวประเทศไทย</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    
+
+    <style>
+
+        /* รีเซ็ตค่าพื้นฐาน */
+
+        *, *::before, *::after {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+
+        body {
+
+            font-family: 'Sarabun', sans-serif;
+
+            background-color: #f0f4f8;
+
+            color: #1e293b;
+
+            padding: 30px 15px;
+
+            min-height: 100vh;
+
+        }
+
+
+
+        /* ส่วนหัวข้อเว็บ */
+
+        header {
+
+            text-align: center;
+
+            margin-bottom: 40px;
+
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+
+            color: white;
+
+            padding: 30px 20px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 10px 25px rgba(3, 105, 161, 0.15);
+
+        }
+
+
+
+        header h1 {
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        header p {
+
+            font-size: 16px;
+
+            color: #e0f2fe;
+
+            font-weight: 300;
+
+        }
+
+
+
+        /* กล่องเนื้อหาหลักแบ่งซ้าย-ขวา */
+
+        .main-container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns: 350px 1fr;
+
+            gap: 30px;
+
+        }
+
+
+
+        /* ฝั่งซ้าย: แผนที่ / เมนูเลือกภาค */
+
+        .map-sidebar {
+
+            background: #ffffff;
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+            border: 1px solid #e2e8f0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+        }
+
+
+
+        .sidebar-title {
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: #0369a1;
+
+            margin-bottom: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+
+        /* ปุ่มเลือกภาค */
+
+        .region-btn {
+
+            width: 100%;
+
+            padding: 16px 20px;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: #475569;
+
+            background-color: #f8fafc;
+
+            border: 2px solid #e2e8f0;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            text-align: left;
+
+            transition: all 0.25s ease;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+
+        .region-btn:hover {
+
+            background-color: #f0f9ff;
+
+            border-color: #7dd3fc;
+
+            color: #0284c7;
+
+            transform: translateY(-2px);
+
+        }
+
+
+
+        .region-btn.active {
+
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+
+            border-color: #0284c7;
+
+            color: #ffffff;
+
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+
+        }
+
+
+
+        .region-btn::after {
+
+            content: '➔';
+
+            font-size: 14px;
+
+            opacity: 0.7;
+
+        }
+
+
+
+        .region-btn.active::after {
+
+            content: '📍';
+
+            opacity: 1;
+
+        }
+
+
+
+        /* ฝั่งขวา: แสดงสถานที่ท่องเที่ยวของภาคนั้นๆ */
+
+        .content-area {
+
+            background: #ffffff;
+
+            padding: 35px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+            border: 1px solid #e2e8f0;
+
+        }
+
+
+
+        .region-header-title {
+
+            font-size: 26px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+
+            margin-bottom: 25px;
+
+            border-bottom: 3px solid #e2e8f0;
+
+            padding-bottom: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+
+        /* โครงสร้างการ์ดสถานที่ท่องเที่ยว */
+
+        .places-grid {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 25px;
+
+        }
+
+
+
+        .place-card {
+
+            display: grid;
+
+            grid-template-columns: 240px 1fr;
+
+            gap: 20px;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            border: 1px solid #e2e8f0;
+
+            transition: transform 0.2s ease;
+
+        }
+
+
+
+        .place-card:hover {
+
+            transform: scale(1.01);
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+
+        }
+
+
+
+        /* กล่องใส่รูปภาพของคุณ */
+
+        .place-image-box {
+
+            width: 100%;
+
+            height: 160px;
+
+            background-color: #cbd5e1; /* สีพื้นหลังระหว่างรอใส่รูป */
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .place-image-box img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+        }
+
+
+
+        .place-info {
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+
+        .place-name {
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: #0369a1;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        .place-description {
+
+            font-size: 14px;
+
+            color: #475569;
+
+            line-height: 1.6;
+
+        }
+
+
+
+        /* ปรับแต่งเมื่อเปิดบนมือถือ */
+
+        @media (max-width: 900px) {
+
+            .main-container {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .place-card {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .place-image-box {
+
+                height: 200px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <header>
+
+        <h1>🗺️ แผนที่ท่องเที่ยวประเทศไทย</h1>
+
+        <p>คลิกเลือกภูมิภาคบนแถบเมนูด้านซ้าย เพื่อค้นหาสถานที่ท่องเที่ยวไฮไลต์ประจำภาค</p>
+
+    </header>
+
+
+
+    <div class="main-container">
+
+        
+
+        <!-- ฝั่งซ้าย: แถบเลือกภาค (แทนแผนที่จำลอง) -->
+
+        <div class="map-sidebar">
+
+            <div class="sidebar-title">🧭 เลือกภูมิภาค</div>
+
+            <button class="region-btn active" onclick="changeRegion('north', this)">ภาคเหนือ</button>
+
+            <button class="region-btn" onclick="changeRegion('central', this)">ภาคกลาง</button>
+
+            <button class="region-btn" onclick="changeRegion('northeast', this)">ภาคอีสาน</button>
+
+            <button class="region-btn" onclick="changeRegion('east', this)">ภาคตะวันออก</button>
+
+            <button class="region-btn" onclick="changeRegion('south', this)">ภาคใต้</button>
+
+        </div>
+
+
+
+        <!-- ฝั่งขวา: แสดงข้อมูล และ รูปภาพที่คุณจะนำมาใส่ -->
+
+        <div class="content-area">
+
+            <h2 id="current-region-title" class="region-header-title">🏞️ ภาคเหนือ</h2>
+
+            <div id="places-list-container" class="places-grid">
+
+                <!-- ข้อมูลจะถูกสลับสับเปลี่ยนตรงนี้โดยอัตโนมัติด้วย JavaScript ด้านล่าง -->
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <script>
+
+        // ข้อมูลสถานที่ท่องเที่ยวและตำแหน่งวางรูปภาพ (คุณสามารถเปลี่ยนลิงก์รูปในช่อง imageUrl ได้เลย)
+
+        const regionData = {
+
+            north: {
+
+                title: "🏞️ ภาคเหนือ",
+
+                places: [
+
+                    {
+
+                        name: "วัดพระธาตุดอยสุเทพ (เชียงใหม่)",
+
+                        desc: "ปูชนียสถานคู่บ้านคู่เมืองเชียงใหม่ ตั้งอยู่บนยอดดอยสุเทพ นักท่องเที่ยวสามารถขึ้นไปสักการะพระธาตุและชมทัศนียภาพอันงดงามของเมืองเชียงใหม่ได้รอบทิศทาง",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkIlsK5HN-Ukm5n1KMlYv0ZjB54q-kH1XwPvUvLzywTg&s=10" 
+
+                    },
+
+                    {
+
+                        name: "อุทยานแห่งชาติ ดอยอินทนนท์ (เชียงใหม่)",
+
+                        desc: "ยอดเขาที่สูงที่สุดในประเทศไทย มีอากาศหนาวเย็นตลอดทั้งปี เป็นจุดชมพระอาทิตย์ขึ้นและทะเลหมอกที่สวยงาม พร้อมเส้นทางศึกษาธรรมชาติกิ่วแม่ปาน",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9_gCAptR9iQKPDFjdZDnQZ8JTaBXYWAjMnd9Ohf6CWA&s=10" 
+
+                    }
+
+                ]
+
+            },
+
+            central: {
+
+                title: "🏛️ ภาคกลาง",
+
+                places: [
+
+                    {
+
+                        name: "วัดพระศรีรัตนศาสดาราม / วัดพระแก้ว (กรุงเทพฯ)",
+
+                        desc: "พระอารามหลวงชั้นเอกคู่บ้านคู่เมืองไทย ประดิษฐานพระพุทธมหามณีรัตนปฏิมากร (พระแก้วมรกต) รายล้อมด้วยสถาปัตยกรรมไทยอันวิจิตรตระการตา",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw6uoD5YLLXGydzhnTtxmZENV4ay9joRasGI4RZzXEPw&s=10" 
+
+                    },
+
+                    {
+
+                        name: "อุทยานประวัติศาสตร์พระนครศรีอยุธยา",
+
+                        desc: "แหล่งมรดกโลกทางวัฒนธรรมที่เต็มไปด้วยซากปรักหักพังของวัดวาอารามและพระราชวังเก่า สะท้อนถึงความรุ่งเรืองในอดีตของราชธานีไทย",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTksoxQPAHowRFu_WBsEBqMiojtJ8hEZI3sqcaOKkapw&s=10" 
+
+                    }
+
+                ]
+
+            },
+
+            northeast: {
+
+                title: "⛰️ ภาคอีสาน (ตะวันออกเฉียงเหนือ)",
+
+                places: [
+
+                    {
+
+                        name: "อุทยานแห่งชาติภูกระดึง (เลย)",
+
+                        desc: "แหล่งท่องเที่ยวยอดนิยมของนักเดินป่า ท้าทายแรงขาด้วยการเดินขึ้นเขาสู่หลังแป เพื่อชมทุ่งสนป่า น้ำตก และจุดชมวิวพระอาทิตย์ตกดินอันเลื่องชื่อที่ผาหล่มสัก",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcEVn8kiMQPx18LV1UL74x7TKRyJ3Wm10_JLo7aqq0SQ&s=10" 
+
+                    },
+
+                    {
+
+                        name: "ปราสาทหินพนมรุ้ง (บุรีรัมย์)",
+
+                        desc: "โบราณสถานศิลปะขอมโบราณที่ตั้งอยู่บนยอดภูเขาไฟที่ดับสนิทแล้ว มีความมหัศจรรย์ตรงที่แสงอาทิตย์จะส่องทะลุผ่านช่องประตูทั้ง 15 ช่องในเวลาเดียวกัน",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMS1UeOfQ9khwzt8Tj26pZO1so9dHB7MOeg5RT1Fikqg&s=10"
+
+                    }
+
+                ]
+
+            },
+
+            east: {
+
+                title: "🏖️ ภาคตะวันออก",
+
+                places: [
+
+                    {
+
+                        name: "เกาะเสม็ด (ระยอง)",
+
+                        desc: "เกาะท่องเที่ยวยอดนิยมในทะเลอ่าวไทย ขึ้นชื่อเรื่องหาดทรายขาวละเอียดนุ่มเท้า เช่น หาดทรายแก้ว อ่าววงเดือน เหมาะแก่การพักผ่อนและเล่นน้ำ",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4AeJPLdEEHw28NKSCGt1Ws5rAC58kMpoea4zGa9SXLQ&s=10" 
+
+                    },
+
+                    {
+
+                        name: "ถนนเฉลิมบูรพาชลทิต (จันทบุรี)",
+
+                        desc: "ถนนเลียบชายหาดที่สวยที่สุดในภาคตะวันออก มีจุดชมวิวเนินนางพญาที่สามารถมองเห็นถนนโค้งเลียบทะเลคู่กับทิวทัศน์ภูเขาได้อย่างงดงาม",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPRXAkdFyb1khcupUgcple7u2BTpJJlqbnjVFoHqEEJQ&s=10" 
+
+                    }
+
+                ]
+
+            },
+
+            south: {
+
+                title: "🌊 ภาคใต้",
+
+                places: [
+
+                    {
+
+                        name: "หมู่เกาะพีพี (กระบี่)",
+
+                        desc: "มรกตแห่งอันดามันที่โด่งดังไปทั่วโลก โดดเด่นด้วยอ่าวมาหยาที่มีหาดทรายขาวและน้ำทะเลสีเขียวใสใสบริสุทธิ์ ล้อมรอบด้วยหน้าผาหินปูนสูงชัน",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMt85D5L6HaCSl02yJ5E-CBMyHK4TB8TYnMZIKm5F7Ig&s=10" 
+
+                    },
+
+                    {
+
+                        name: "เขาสก / เขื่อนเชี่ยวหลาน (สุราษฎร์ธานี)",
+
+                        desc: "ได้รับฉายาว่า 'กุ้ยหลินเมืองไทย' โดดเด่นด้วยภูเขาหินปูนที่โผล่พ้นน้ำสีเขียวมรกตภายในเขื่อน บรรยากาศเงียบสงบเหมาะแก่การนอนแพริมน้ำ",
+
+                        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIYNpBoQQ-5mtcx9PwXRmPQKCerb_wpBNjQXDe8Zohag&s=10" 
+
+                    }
+
+                ]
+
+            }
+
+        };
+
+
+
+        // ฟังก์ชันสำหรับเปลี่ยนข้อมูลเมื่อคลิกภาคต่างๆ
+
+        function changeRegion(regionKey, btnElement) {
+
+            // 1. สลับคลาส active ของปุ่ม
+
+            const buttons = document.querySelectorAll('.region-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            btnElement.classList.add('active');
+
+
+
+            // 2. ดึงข้อมูลภูมิภาคมาแสดง
+
+            const data = regionData[regionKey];
+
+            document.getElementById('current-region-title').innerText = data.title;
+
+
+
+            // 3. แสดงการ์ดสถานที่ท่องเที่ยวพร้อมรูปภาพ
+
+            const container = document.getElementById('places-list-container');
+
+            container.innerHTML = ''; // ล้างข้อมูลเก่าก่อน
+
+
+
+            data.places.forEach(place => {
+
+                // ตรวจสอบว่ามีลิงก์รูปภาพหรือไม่ ถ้าไม่มีให้แสดงข้อความเตือนแทน
+
+                const imageTag = place.imageUrl ? `<img src="${place.imageUrl}" alt="${place.name}">` : '📷 รอใส่รูปภาพที่นี่';
+
+
+
+                const card = document.createElement('div');
+
+                card.className = 'place-card';
+
+                card.innerHTML = `
+
+                    <div class="place-image-box">
+
+                        ${imageTag}
+
+                    </div>
+
+                    <div class="place-info">
+
+                        <div class="place-name">📍 ${place.name}</div>
+
+                        <div class="place-description">${place.desc}</div>
+
+                    </div>
+
+                `;
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+
+
+        
+
+        window.onload = function() {
+
+            const defaultBtn = document.querySelector('.region-btn.active');
+
+            changeRegion('north', defaultBtn);
+
+        };
+
+    </script>
+
+</body>
+
+</html>
+
+ช่วยเปี่ยนข้อมุลการท่องเที่ยวนี้เป็นสัตว์เลี้ยงให้หน่อย 
+
